@@ -1,283 +1,286 @@
 import 'package:flutter/material.dart';
-import 'package:mood_tracker/pages/WelcomePage.dart';
 import 'package:mood_tracker/pages/mood_selection_page.dart';
 
-class MyHomePage extends StatefulWidget {
-  static const routeName = '/home';
-
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
+void main() {
+  runApp(const MyApp());
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Start Your Day',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(scaffoldBackgroundColor: const Color(0xFF1E1E1E)),
+      home: const HomeScreen(),
+    );
+  }
+}
+
+class TaskItem {
+  final String title;
+  final String time;
+  final List<Color> gradientColors;
+  final Color buttonColor;
+  const TaskItem({
+    required this.title,
+    required this.time,
+    required this.gradientColors,
+    required this.buttonColor,
+  });
+}
+
+class HomeScreen extends StatefulWidget {
+  static const routeName = '/home';
+
+  const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+
+  static const morningTasks = [
+    TaskItem(
+      title: 'New Day,\nFresh Start',
+      time: '1:10am',
+      gradientColors: [Color(0xFFF5A623), Color(0xFFE91E8C)],
+      buttonColor: Color(0xFFFFD600),
+    ),
+    TaskItem(
+      title: 'New Day,\nFresh Start',
+      time: '1:10am',
+      gradientColors: [Color(0xFFF5A623), Color(0xFFE91E8C)],
+      buttonColor: Color(0xFFFFD600),
+    ),
+    TaskItem(
+      title: 'New Day,\nFresh Start',
+      time: '1:25am',
+      gradientColors: [Color(0xFFF5A623), Color(0xFFE91E8C)],
+      buttonColor: Color(0xFFFFD600),
+    ),
+  ];
+
+  static const afternoonTasks = [
+    TaskItem(
+      title: 'Recharge',
+      time: '7:30am',
+      gradientColors: [Color(0xFFCDFF47), Color(0xFF00D4E0)],
+      buttonColor: Color(0xFF00BFFF),
+    ),
+    TaskItem(
+      title: 'keep Calm',
+      time: '11:30am',
+      gradientColors: [Color(0xFFCDFF47), Color(0xFF00D4E0)],
+      buttonColor: Color(0xFF00BFFF),
+    ),
+    TaskItem(
+      title: 'Stay\nFocused',
+      time: '1:32pm',
+      gradientColors: [Color(0xFFCDFF47), Color(0xFF00D4E0)],
+      buttonColor: Color(0xFF00BFFF),
+    ),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF121214),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF121214),
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        iconTheme: const IconThemeData(color: Colors.white),
-        titleTextStyle: const TextStyle(
-          color: Colors.white,
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
-        leadingWidth: 64,
-        leading: Padding(
-          padding: const EdgeInsets.only(left: 8),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(16),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                WelcomePage.routeName,
-              );
-            },
-            child: Container(
-              width: 46,
-              height: 46,
-              decoration: BoxDecoration(
-                color: const Color(0xFF2D2F38),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: const Icon(Icons.arrow_back_ios_new,
-                  color: Colors.white, size: 18),
-            ),
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 12),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(16),
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  MoodSelectionPage.routeName,
-                );
-              },
-              child: Container(
-                width: 46,
-                height: 46,
-                decoration: BoxDecoration(
-                  color: const Color(0xFF2D2F38),
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                alignment: Alignment.center,
-                child: const Icon(
-                  Icons.arrow_forward_ios,
-                  color: Colors.white,
-                  size: 18,
-                ),
-              ),
-            ),
-          ),
-        ],
-        centerTitle: true,
-      ),
+      backgroundColor: const Color(0xFF1E1E1E),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(18, 4, 18, 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text(
-                'Good Morning Milni!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 14,
-                ),
-              ),
-              const SizedBox(height: 14),
-              const Text(
-                'Start your\n day here!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 34,
-                  fontWeight: FontWeight.bold,
-                  height: 1.1,
-                ),
-              ),
-              const SizedBox(height: 24),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'For Good Mornings',
-                  textAlign: TextAlign.left,
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 14),
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      _buildActivityCard(
-                        title: 'New Day,\nFresh Start',
-                        subtitle: '7.32am',
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFFF30F1), Color(0xFFF3D217)],
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      _buildActivityCard(
-                        title: 'New Day,\nFresh Start',
-                        subtitle: '7.32am',
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFFF30F1), Color(0xFFF3D217)],
-                        ),
-                      ),
-                      const SizedBox(height: 12),
-                      _buildActivityCard(
-                        title: 'New Day,\nFresh Start',
-                        subtitle: '7.32am',
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFFFF30F1), Color(0xFFF3D217)],
-                        ),
-                      ),
-                      const SizedBox(height: 24),
-                      const Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'For Afternoon Shift',
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
+        child: Column(
+          children: [
+            // ── Scrollable content fills available space ──────────────────
+            Expanded(
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 18),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 14),
+
+                        // Greeting
+                        Center(
+                          child: Text(
+                            'Good Morning Milni!',
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.55),
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 14),
-                      _buildActivityCard(
-                        title: 'Recharge',
-                        subtitle: '7.32am',
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFF3DD1FF), Color(0xFF9EDE4C)],
+                        const SizedBox(height: 6),
+
+                        // Hero headline
+                        const Center(
+                          child: Text(
+                            'Start your\nday here!',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 28,
+                              fontWeight: FontWeight.w800,
+                              height: 1.15,
+                            ),
+                          ),
                         ),
-                        iconColor: const Color(0xFF3DD1FF),
-                      ),
-                      const SizedBox(height: 12),
-                      _buildActivityCard(
-                        title: 'keep Calm',
-                        subtitle: '7.32am',
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFF3DD1FF), Color(0xFF9EDE4C)],
-                        ),
-                        iconColor: const Color(0xFF3DD1FF),
-                      ),
-                      const SizedBox(height: 12),
-                      _buildActivityCard(
-                        title: 'Stay Focused',
-                        subtitle: '7.32am',
-                        gradient: const LinearGradient(
-                          colors: [Color(0xFF3DD1FF), Color(0xFF9EDE4C)],
-                        ),
-                        iconColor: const Color(0xFF3DD1FF),
-                      ),
-                      const SizedBox(height: 24),
-                    ],
-                  ),
-                ),
+                        const SizedBox(height: 16),
+
+                        // Morning section
+                        _sectionLabel('For Good Mornings'),
+                        const SizedBox(height: 8),
+                        ...morningTasks
+                            .map((t) => _TaskCard(task: t, compact: true)),
+
+                        const SizedBox(height: 12),
+
+                        // Afternoon section
+                        _sectionLabel('For Afternoon Shift'),
+                        const SizedBox(height: 8),
+                        ...afternoonTasks
+                            .map((t) => _TaskCard(task: t, compact: true)),
+
+                        const Spacer(),
+                      ],
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        margin: const EdgeInsets.all(16),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        decoration: BoxDecoration(
-          color: const Color(0xFF1E1F24),
-          borderRadius: BorderRadius.circular(28),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: const [
-            _NavIcon(icon: Icons.home, active: true),
-            _NavIcon(icon: Icons.search),
-            _NavIcon(icon: Icons.calendar_today),
-            _NavIcon(icon: Icons.person),
+            ),
+
+            // ── Bottom nav ────────────────────────────────────────────────
+            _BottomNav(
+              selectedIndex: _selectedIndex,
+              onTap: (i) {
+                if (i == 2) {
+                  Navigator.pushNamed(context, MoodSelectionPage.routeName);
+                  return;
+                }
+                setState(() => _selectedIndex = i);
+              },
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildActivityCard({
-    required String title,
-    required String subtitle,
-    required Gradient gradient,
-    Color iconColor = const Color(0xFFFACC15),
-  }) {
+  Widget _sectionLabel(String label) => Text(
+        label,
+        style: TextStyle(
+          color: Colors.white.withOpacity(0.4),
+          fontSize: 11,
+          fontWeight: FontWeight.w500,
+        ),
+      );
+}
+
+// ── Task Card ─────────────────────────────────────────────────────────────────
+
+class _TaskCard extends StatelessWidget {
+  final TaskItem task;
+  final bool compact;
+  const _TaskCard({required this.task, this.compact = false});
+
+  @override
+  Widget build(BuildContext context) {
+    final cardHeight = compact ? 66.0 : 76.0;
+
     return Container(
-      constraints: const BoxConstraints(minHeight: 76),
-      decoration: BoxDecoration(
-        color: const Color(0xFF2D2F38),
-        borderRadius: BorderRadius.circular(24),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      margin: const EdgeInsets.only(bottom: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
-            flex: 3,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+            child: Container(
+              height: cardHeight,
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 67, 66, 66),
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: Row(
+                children: [
+                  // Text
+                  SizedBox(
+                    width: 110,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            task.title,
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              height: 1.3,
+                            ),
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            task.time,
+                            style: TextStyle(
+                              color: Colors.white.withOpacity(0.38),
+                              fontSize: 10,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  subtitle,
-                  style: const TextStyle(
-                    color: Colors.white60,
-                    fontSize: 13,
+
+                  // Gradient bar
+                  Expanded(
+                    child: Container(
+                      margin: const EdgeInsets.symmetric(vertical: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        gradient: LinearGradient(
+                          colors: task.gradientColors,
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-          const SizedBox(width: 10),
-          Container(
-            width: 128,
-            height: 52,
-            decoration: BoxDecoration(
-              gradient: gradient,
-              borderRadius: BorderRadius.circular(20),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              color: const Color(0xFFFACC15),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            alignment: Alignment.center,
-            child: const Icon(
-              Icons.play_arrow,
-              color: Colors.black,
-              size: 26,
+
+          const SizedBox(width: 12),
+
+          // Play button outside the gray card with yellow outer box and white inner shape
+          GestureDetector(
+            onTap: () {},
+            child: Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: task.buttonColor,
+                borderRadius: BorderRadius.circular(18),
+              ),
+              alignment: Alignment.center,
+              child: Container(
+                width: 34,
+                height: 34,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(
+                  child: Icon(Icons.play_arrow_rounded,
+                      color: task.buttonColor, size: 20),
+                ),
+              ),
             ),
           ),
         ],
@@ -286,26 +289,56 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class _NavIcon extends StatelessWidget {
-  const _NavIcon({super.key, required this.icon, this.active = false});
+// ── Bottom Navigation ─────────────────────────────────────────────────────────
 
-  final IconData icon;
-  final bool active;
+class _BottomNav extends StatelessWidget {
+  final int selectedIndex;
+  final ValueChanged<int> onTap;
+  const _BottomNav({required this.selectedIndex, required this.onTap});
+
+  static const _icons = [
+    Icons.home_rounded,
+    Icons.search_rounded,
+    Icons.calendar_today_rounded,
+    Icons.person_rounded,
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 52,
-      height: 52,
-      alignment: Alignment.center,
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: active ? const Color(0xFF2D2F38) : Colors.transparent,
-        borderRadius: BorderRadius.circular(18),
+        color: const Color.fromARGB(255, 67, 66, 66),
+        borderRadius: BorderRadius.circular(34),
       ),
-      child: Icon(
-        icon,
-        color: active ? Colors.white : Colors.white54,
-        semanticLabel: '',
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: List.generate(_icons.length, (i) {
+          final selected = i == selectedIndex;
+          return GestureDetector(
+            onTap: () => onTap(i),
+            behavior: HitTestBehavior.opaque,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: 46,
+              height: 46,
+              decoration: BoxDecoration(
+                color: selected ? const Color.fromARGB(255, 90, 90, 90) : Colors.transparent,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: Colors.white.withOpacity(selected ? 0.08 : 0.18),
+                  width: 1,
+                ),
+              ),
+              child: Icon(
+                _icons[i],
+                color: selected ? Colors.white : Colors.white54,
+                size: 20,
+              ),
+            ),
+          );
+        }),
       ),
     );
   }

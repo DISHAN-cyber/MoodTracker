@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mood_tracker/pages/WelcomePage.dart';
+import 'package:mood_tracker/pages/welcome_page.dart';
 import 'package:mood_tracker/pages/home_page.dart';
 import 'package:mood_tracker/pages/mood_selection_page.dart';
 
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       ),
       home: const WelcomePage(),
       routes: {
-        MyHomePage.routeName: (context) => const MyHomePage(title: 'Home'),
+        HomeScreen.routeName: (context) => const HomeScreen(),
         MoodSelectionPage.routeName: (context) => const MoodSelectionPage(),
       },
     );
