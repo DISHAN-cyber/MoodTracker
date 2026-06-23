@@ -190,10 +190,10 @@ class _TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cardHeight = compact ? 66.0 : 76.0;
+    final cardHeight = 68.0;
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
+      margin: const EdgeInsets.only(bottom: 14),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -202,15 +202,15 @@ class _TaskCard extends StatelessWidget {
               height: cardHeight,
               decoration: BoxDecoration(
                 color: const Color.fromARGB(255, 67, 66, 66),
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(18),
               ),
-              child: Row(
-                children: [
-                  // Text
-                  SizedBox(
-                    width: 110,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 14),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    // Text
+                    SizedBox(
+                      width: 110,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -224,7 +224,7 @@ class _TaskCard extends StatelessWidget {
                               height: 1.3,
                             ),
                           ),
-                          const SizedBox(height: 3),
+                          const SizedBox(height: 4),
                           Text(
                             task.time,
                             style: TextStyle(
@@ -235,23 +235,25 @@ class _TaskCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                  ),
 
-                  // Gradient bar
-                  Expanded(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(vertical: 10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        gradient: LinearGradient(
-                          colors: task.gradientColors,
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
+                    const SizedBox(width: 16),
+
+                    // Gradient bar
+                    Expanded(
+                      child: Container(
+                        height: 48,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          gradient: LinearGradient(
+                            colors: task.gradientColors,
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -262,19 +264,19 @@ class _TaskCard extends StatelessWidget {
           GestureDetector(
             onTap: () {},
             child: Container(
-              width: 56,
-              height: 56,
+              width: 68,
+              height: 68,
               decoration: BoxDecoration(
                 color: task.buttonColor,
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(20),
               ),
               alignment: Alignment.center,
               child: Container(
-                width: 34,
-                height: 34,
+                width: 32,
+                height: 32,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(8),
                 ),
                 child: Center(
                   child: Icon(Icons.play_arrow_rounded,
@@ -313,32 +315,38 @@ class _BottomNav extends StatelessWidget {
         borderRadius: BorderRadius.circular(34),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: List.generate(_icons.length, (i) {
-          final selected = i == selectedIndex;
-          return GestureDetector(
-            onTap: () => onTap(i),
-            behavior: HitTestBehavior.opaque,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: 46,
-              height: 46,
-              decoration: BoxDecoration(
-                color: selected ? const Color.fromARGB(255, 90, 90, 90) : Colors.transparent,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(
-                  color: Colors.white.withOpacity(selected ? 0.08 : 0.18),
-                  width: 1,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (var i = 0; i < _icons.length; i++) ...[
+            if (i != 0) const SizedBox(width: 6),
+            GestureDetector(
+              onTap: () => onTap(i),
+              behavior: HitTestBehavior.opaque,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                width: 28,
+                height: 28,
+                decoration: BoxDecoration(
+                  color: i == selectedIndex
+                      ? const Color.fromARGB(255, 90, 90, 90)
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: Colors.white
+                        .withOpacity(i == selectedIndex ? 0.08 : 0.18),
+                    width: 1,
+                  ),
+                ),
+                child: Icon(
+                  _icons[i],
+                  color: i == selectedIndex ? Colors.white : Colors.white54,
+                  size: 14,
                 ),
               ),
-              child: Icon(
-                _icons[i],
-                color: selected ? Colors.white : Colors.white54,
-                size: 20,
-              ),
             ),
-          );
-        }),
+          ],
+        ],
       ),
     );
   }
