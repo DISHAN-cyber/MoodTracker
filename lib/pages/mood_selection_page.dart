@@ -322,12 +322,13 @@ class _IconButton extends StatelessWidget {
         width: 42,
         height: 42,
         decoration: BoxDecoration(
-          color: const Color(0xFF2D2F38),
+          color: Colors.transparent,
           borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.black, width: 1.2),
         ),
         child: Icon(
           icon,
-          color: Colors.white,
+          color: Colors.black,
           size: 18,
         ),
       ),
