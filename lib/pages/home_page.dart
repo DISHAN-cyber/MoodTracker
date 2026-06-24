@@ -1,24 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mood_tracker/pages/mood_selection_page.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Start Your Day',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(scaffoldBackgroundColor: const Color(0xFF1E1E1E)),
-      home: const HomeScreen(),
-    );
-  }
-}
-
 class TaskItem {
   final String title;
   final String time;
@@ -197,15 +179,29 @@ class _TaskCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          Align(
+            alignment: Alignment.center,
+            child: Container(
+              width: 5.0,
+              height: cardHeight,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.4),
+                borderRadius: BorderRadius.circular(0.5),
+              ),
+            ),
+          ),
+          const SizedBox(width: 10),
           Expanded(
             child: Container(
               height: cardHeight,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 67, 66, 66),
-                borderRadius: BorderRadius.circular(18),
+                color: const Color.fromARGB(255, 84, 84, 87),
+                borderRadius: BorderRadius.circular(20),
+                border:
+                    Border.all(color: Colors.white.withOpacity(0.08), width: 1),
               ),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: Row(
                   children: [
                     // Text
@@ -308,11 +304,12 @@ class _BottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.fromLTRB(20, 8, 20, 12),
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 67, 66, 66),
-        borderRadius: BorderRadius.circular(34),
+        color: const Color.fromARGB(255, 83, 83, 85),
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(color: Colors.white.withOpacity(0.08), width: 1),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -329,7 +326,7 @@ class _BottomNav extends StatelessWidget {
                 height: 28,
                 decoration: BoxDecoration(
                   color: i == selectedIndex
-                      ? const Color.fromARGB(255, 90, 90, 90)
+                      ? const Color(0xFF3C3F48)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(

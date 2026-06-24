@@ -10,12 +10,7 @@ class MoodSelectionPage extends StatefulWidget {
 }
 
 class _MoodSelectionPageState extends State<MoodSelectionPage> {
-  final List<String> _moods = [
-    'Joyful',
-    'Cheerful',
-    'Content',
-    'Calm',
-  ];
+  final List<String> _moods = ['Joyful', 'Cheerful', 'Content', 'Calm'];
   int _selectedMoodIndex = 1;
 
   @override
@@ -68,10 +63,7 @@ class _MoodSelectionPageState extends State<MoodSelectionPage> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 50,
-                  child: _buildBottomNav(),
-                ),
+                SizedBox(height: 50, child: _buildBottomNav()),
               ],
             );
           },
@@ -94,7 +86,7 @@ class _MoodSelectionPageState extends State<MoodSelectionPage> {
             height: double.infinity,
             errorBuilder: (context, error, stackTrace) {
               return Container(
-                color: Colors.red,
+                color: const Color(0xFF2F2F35),
                 alignment: Alignment.center,
                 child: const Text(
                   'Image not found',
@@ -109,8 +101,8 @@ class _MoodSelectionPageState extends State<MoodSelectionPage> {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  Colors.black.withValues(alpha: 0.05),
-                  Colors.black.withValues(alpha: 0.60),
+                  Colors.black.withOpacity(0.05),
+                  Colors.black.withOpacity(0.60),
                 ],
               ),
             ),
@@ -129,9 +121,7 @@ class _MoodSelectionPageState extends State<MoodSelectionPage> {
             child: GestureDetector(
               onTap: () {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Mood saved successfully'),
-                  ),
+                  const SnackBar(content: Text('Mood saved successfully')),
                 );
               },
               child: Container(
@@ -145,7 +135,7 @@ class _MoodSelectionPageState extends State<MoodSelectionPage> {
                 child: const Text(
                   'Save',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Color.fromARGB(255, 7, 7, 7),
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                   ),
@@ -163,46 +153,42 @@ class _MoodSelectionPageState extends State<MoodSelectionPage> {
       padding: const EdgeInsets.symmetric(horizontal: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
         children: List.generate(_moods.length, (index) {
           final bool isSelected = index == _selectedMoodIndex;
           return Expanded(
             child: Padding(
               padding:
                   EdgeInsets.only(right: index == _moods.length - 1 ? 0 : 6),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minWidth: 64),
-                child: GestureDetector(
-                  onTap: () => setState(() => _selectedMoodIndex = index),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 12),
-                    decoration: BoxDecoration(
-                      gradient: isSelected
-                          ? const LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [Color(0xFF8C3BFF), Color(0xFFFF6BE0)],
-                            )
-                          : null,
-                      color: isSelected ? null : const Color(0xFF1F1F24),
-                      border: Border.all(
-                        color: isSelected ? Colors.transparent : Colors.white24,
-                        width: 1.2,
-                      ),
-                      borderRadius: BorderRadius.circular(28),
+              child: GestureDetector(
+                onTap: () => setState(() => _selectedMoodIndex = index),
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
+                  decoration: BoxDecoration(
+                    gradient: isSelected
+                        ? const LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [Color(0xFF8C3BFF), Color(0xFFFF6BE0)],
+                          )
+                        : null,
+                    color: isSelected ? null : const Color(0xFF1F1F24),
+                    border: Border.all(
+                      color: isSelected ? Colors.transparent : Colors.white24,
+                      width: 1.2,
                     ),
-                    child: Center(
-                      child: Text(
-                        _moods[index],
-                        textAlign: TextAlign.center,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: isSelected ? Colors.white : Colors.white70,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
+                    borderRadius: BorderRadius.circular(28),
+                  ),
+                  child: Center(
+                    child: Text(
+                      _moods[index],
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: isSelected ? Colors.white : Colors.white70,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -216,33 +202,27 @@ class _MoodSelectionPageState extends State<MoodSelectionPage> {
   }
 
   Widget _buildMoodBars() {
-    // Create equalizer bars with heights increasing to center then decreasing
     final List<double> heights = [
+      0.25,
       0.35,
       0.45,
       0.55,
       0.65,
-      0.70,
-      0.78,
-      0.85,
-      0.90,
-      0.95,
       1.0,
       0.95,
       0.90,
-      0.85,
-      0.78,
-      0.70,
-      0.65,
       0.55,
+      0.48,
+      0.30,
+      0.25,
       0.45,
-      0.35
     ];
 
     return Center(
       child: GestureDetector(
-        onTap: () => setState(() =>
-            _selectedMoodIndex = (_selectedMoodIndex + 1) % _moods.length),
+        onTap: () => setState(
+          () => _selectedMoodIndex = (_selectedMoodIndex + 1) % _moods.length,
+        ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -252,7 +232,7 @@ class _MoodSelectionPageState extends State<MoodSelectionPage> {
             final double barHeight = 130 * heights[index];
 
             return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 6),
+              margin: const EdgeInsets.symmetric(horizontal: 11),
               width: 4,
               height: barHeight,
               decoration: BoxDecoration(
@@ -328,62 +308,6 @@ class _MoodSelectionPageState extends State<MoodSelectionPage> {
   }
 }
 
-class _BarConfig {
-  const _BarConfig({
-    required this.height,
-    required this.width,
-    required this.color,
-    this.gradient,
-  });
-
-  final double height;
-  final double width;
-  final Color color;
-  final Gradient? gradient;
-}
-
-class _BottomNavItem extends StatelessWidget {
-  const _BottomNavItem({required this.icon, this.label, this.active = false});
-
-  final IconData icon;
-  final String? label;
-  final bool active;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          width: 46,
-          height: 46,
-          decoration: BoxDecoration(
-            color: active ? const Color(0xFF2D2F38) : Colors.transparent,
-            borderRadius: BorderRadius.circular(16),
-          ),
-          alignment: Alignment.center,
-          child: Icon(
-            icon,
-            color: active ? Colors.white : Colors.white54,
-            size: 20,
-          ),
-        ),
-        if (active && label != null) ...[
-          const SizedBox(height: 6),
-          Text(
-            label!,
-            style: const TextStyle(
-              color: Colors.white70,
-              fontSize: 11,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-}
-
 class _IconButton extends StatelessWidget {
   const _IconButton({required this.icon, required this.onPressed});
 
@@ -395,17 +319,16 @@ class _IconButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        width: 46,
-        height: 46,
+        width: 42,
+        height: 42,
         decoration: BoxDecoration(
-          color: Colors.transparent,
+          color: const Color(0xFF2D2F38),
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.black, width: 1.5),
         ),
         child: Icon(
           icon,
-          color: Colors.black,
-          size: 20,
+          color: Colors.white,
+          size: 18,
         ),
       ),
     );
