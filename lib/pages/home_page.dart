@@ -75,68 +75,56 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // ── Scrollable content fills available space ──────────────────
+            // Content without scrolling
             Expanded(
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 14),
-
-                        // Greeting
-                        Center(
-                          child: Text(
-                            'Good Morning Milni!',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.55),
-                              fontSize: 12,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 14),
+                    Center(
+                      child: Text(
+                        'Good Morning Milni!',
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.55),
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
                         ),
-                        const SizedBox(height: 6),
-
-                        // Hero headline
-                        const Center(
-                          child: Text(
-                            'Start your\nday here!',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 28,
-                              fontWeight: FontWeight.w800,
-                              height: 1.15,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-
-                        // Morning section
-                        _sectionLabel('For Good Mornings'),
-                        const SizedBox(height: 8),
-                        ...morningTasks
-                            .map((t) => _TaskCard(task: t, compact: true)),
-
-                        const SizedBox(height: 12),
-
-                        // Afternoon section
-                        _sectionLabel('For Afternoon Shift'),
-                        const SizedBox(height: 8),
-                        ...afternoonTasks
-                            .map((t) => _TaskCard(task: t, compact: true)),
-
-                        const Spacer(),
-                      ],
+                      ),
                     ),
-                  );
-                },
+                    const SizedBox(height: 6),
+                    const Center(
+                      child: Text(
+                        'Start your\nday here!',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 28,
+                          fontWeight: FontWeight.w800,
+                          height: 1.15,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    // Morning section with continuous line
+                    _sectionLabel('For Good Mornings'),
+                    const SizedBox(height: 8),
+                    _TaskSectionWithLine(tasks: morningTasks),
+                    
+                    const SizedBox(height: 12),
+                    
+                    // Afternoon section with continuous line
+                    _sectionLabel('For Afternoon Shift'),
+                    const SizedBox(height: 8),
+                    _TaskSectionWithLine(tasks: afternoonTasks),
+                    
+                    const Spacer(),
+                  ],
+                ),
               ),
             ),
-
-            // ── Bottom nav ────────────────────────────────────────────────
             _BottomNav(
               selectedIndex: _selectedIndex,
               onTap: (i) {
@@ -163,131 +151,141 @@ class _HomeScreenState extends State<HomeScreen> {
       );
 }
 
-// ── Task Card ─────────────────────────────────────────────────────────────────
-
-class _TaskCard extends StatelessWidget {
-  final TaskItem task;
-  final bool compact;
-  const _TaskCard({required this.task, this.compact = false});
+// This widget creates a continuous vertical line with task cards
+class _TaskSectionWithLine extends StatelessWidget {
+  final List<TaskItem> tasks;
+  const _TaskSectionWithLine({required this.tasks});
 
   @override
   Widget build(BuildContext context) {
-    final cardHeight = 68.0;
-
-    return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Align(
-            alignment: Alignment.center,
-            child: Container(
-              width: 5.0,
-              height: cardHeight,
-              decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.4),
-                borderRadius: BorderRadius.circular(0.5),
-              ),
-            ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Continuous vertical line
+        Container(
+          width: 2,
+          height: (tasks.length * 68.0) + ((tasks.length - 1) * 14.0),
+          decoration: BoxDecoration(
+            color: Colors.white.withOpacity(0.3),
+            borderRadius: BorderRadius.circular(1),
           ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Container(
-              height: cardHeight,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 84, 84, 87),
-                borderRadius: BorderRadius.circular(20),
-                border:
-                    Border.all(color: Colors.white.withOpacity(0.08), width: 1),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Row(
-                  children: [
-                    // Text
-                    SizedBox(
-                      width: 110,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            task.title,
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              height: 1.3,
-                            ),
-                          ),
-                          const SizedBox(height: 4),
-                          Text(
-                            task.time,
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.38),
-                              fontSize: 10,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    const SizedBox(width: 16),
-
-                    // Gradient bar
-                    Expanded(
-                      child: Container(
-                        height: 48,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          gradient: LinearGradient(
-                            colors: task.gradientColors,
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+        ),
+        const SizedBox(width: 12),
+        // Task cards with play buttons
+        Expanded(
+          child: Column(
+            children: tasks
+                .map((task) => Padding(
+                      padding: const EdgeInsets.only(bottom: 14),
+                      child: _TaskCard(task: task),
+                    ))
+                .toList(),
           ),
-
-          const SizedBox(width: 12),
-
-          // Play button outside the gray card with yellow outer box and white inner shape
-          GestureDetector(
-            onTap: () {},
-            child: Container(
-              width: 68,
-              height: 68,
-              decoration: BoxDecoration(
-                color: task.buttonColor,
-                borderRadius: BorderRadius.circular(20),
-              ),
-              alignment: Alignment.center,
-              child: Container(
-                width: 32,
-                height: 32,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Center(
-                  child: Icon(Icons.play_arrow_rounded,
-                      color: task.buttonColor, size: 20),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
 
-// ── Bottom Navigation ─────────────────────────────────────────────────────────
+class _TaskCard extends StatelessWidget {
+  final TaskItem task;
+  const _TaskCard({required this.task});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        // Main card
+        Expanded(
+          child: Container(
+            height: 68,
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 84, 84, 87),
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(color: Colors.white.withOpacity(0.08), width: 1),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Row(
+                children: [
+                  SizedBox(
+                    width: 110,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          task.title,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w600,
+                            height: 1.3,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          task.time,
+                          style: TextStyle(
+                            color: Colors.white.withOpacity(0.38),
+                            fontSize: 10,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Container(
+                      height: 48,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        gradient: LinearGradient(
+                          colors: task.gradientColors,
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(width: 12),
+        // Play button
+        GestureDetector(
+          onTap: () {},
+          child: Container(
+            width: 68,
+            height: 68,
+            decoration: BoxDecoration(
+              color: task.buttonColor,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            alignment: Alignment.center,
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Center(
+                child: Icon(
+                  Icons.play_arrow_rounded,
+                  color: task.buttonColor,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 class _BottomNav extends StatelessWidget {
   final int selectedIndex;
@@ -330,8 +328,7 @@ class _BottomNav extends StatelessWidget {
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: Colors.white
-                        .withOpacity(i == selectedIndex ? 0.08 : 0.18),
+                    color: Colors.white.withOpacity(i == selectedIndex ? 0.08 : 0.18),
                     width: 1,
                   ),
                 ),
