@@ -48,20 +48,22 @@ class _WelcomePageState extends State<WelcomePage> {
                     ),
                   ),
                   const SizedBox(height: 28),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: List.generate(
-                      _moods.length,
-                      (index) => Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 3),
-                          child: _moodButton(
-                            _moods[index],
-                            index == _selectedMoodIndex,
-                            () => setState(() => _selectedMoodIndex = index),
-                          ),
-                        ),
-                      ),
+                  SizedBox(
+                    height: 42,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(horizontal: 30),
+                      itemCount: _moods.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(width: 30),
+                      itemBuilder: (context, index) {
+                        return _moodButton(
+                          _moods[index],
+                          index == _selectedMoodIndex,
+                          () => setState(() => _selectedMoodIndex = index),
+                        );
+                      },
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -201,7 +203,7 @@ class _WelcomePageState extends State<WelcomePage> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        constraints: const BoxConstraints(minHeight: 38, minWidth: 0),
+        constraints: const BoxConstraints(minHeight: 38, minWidth: 72),
         decoration: BoxDecoration(
           gradient: active
               ? const LinearGradient(
@@ -217,7 +219,7 @@ class _WelcomePageState extends State<WelcomePage> {
             width: 1,
           ),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Center(
           child: Text(
             label,

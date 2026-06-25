@@ -148,58 +148,55 @@ class _MoodSelectionPageState extends State<MoodSelectionPage> {
     );
   }
 
-  Widget _buildMoodOptions() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(_moods.length, (index) {
-          final bool isSelected = index == _selectedMoodIndex;
-          return Expanded(
-            child: Padding(
-              padding:
-                  EdgeInsets.only(right: index == _moods.length - 1 ? 0 : 6),
-              child: GestureDetector(
-                onTap: () => setState(() => _selectedMoodIndex = index),
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
-                  decoration: BoxDecoration(
-                    gradient: isSelected
-                        ? const LinearGradient(
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                            colors: [Color(0xFF8C3BFF), Color(0xFFFF6BE0)],
-                          )
-                        : null,
-                    color: isSelected ? null : const Color(0xFF1F1F24),
-                    border: Border.all(
-                      color: isSelected ? Colors.transparent : Colors.white24,
-                      width: 1.2,
-                    ),
-                    borderRadius: BorderRadius.circular(28),
-                  ),
-                  child: Center(
-                    child: Text(
-                      _moods[index],
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.white70,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+Widget _buildMoodOptions() {
+  return SizedBox(
+    height: 50,
+    child: ListView.separated(
+      scrollDirection: Axis.horizontal,
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      itemCount: _moods.length,
+      separatorBuilder: (context, index) => const SizedBox(width: 6),
+      itemBuilder: (context, index) {
+        final bool isSelected = index == _selectedMoodIndex;
+        return GestureDetector(
+          onTap: () => setState(() => _selectedMoodIndex = index),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 23, vertical: 12),
+            decoration: BoxDecoration(
+              gradient: isSelected
+                  ? const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFF8C3BFF), Color(0xFFFF6BE0)],
+                    )
+                  : null,
+              color: isSelected ? null : const Color(0xFF1F1F24),
+              border: Border.all(
+                color: isSelected ? Colors.transparent : Colors.white24,
+                width: 1.2,
+              ),
+              borderRadius: BorderRadius.circular(28),
+            ),
+            child: Center(
+              child: Text(
+                _moods[index],
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: isSelected ? Colors.white : Colors.white70,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
-          );
-        }),
-      ),
-    );
-  }
+          ),
+        );
+      },
+    ),
+  );
+}
 
   Widget _buildMoodBars() {
     final List<double> heights = [
